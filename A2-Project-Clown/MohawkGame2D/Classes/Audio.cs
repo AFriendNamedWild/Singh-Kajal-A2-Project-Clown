@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 /*////////////////////////////////////////////////////////////////////////
- * Copyright (c)
- * Mohawk College, 135 Fennell Ave W, Hamilton, Ontario, Canada L9C 0E5
- * Game Design (374): GAME 10003 Game Development Foundations
- *////////////////////////////////////////////////////////////////////////
+/* Copyright (c)
+/* Mohawk College, 135 Fennell Ave W, Hamilton, Ontario, Canada L9C 0E5
+/* Game Design (374): GAME 10033 Game Development Foundations
+/* Source: https://github.com/MohawkRaphaelT/game10003-2d-game-template
+/*////////////////////////////////////////////////////////////////////////
 
 using Raylib_cs;
 
@@ -28,7 +29,8 @@ namespace MohawkGame2D
         private static readonly Dictionary<string, Music> loadedMusic = [];
 
         /// <summary>
-        ///     Internally track sounds to speed up duplicate loads and properly unload when game is quit
+        ///     Keep list of sounds to auto-update in background, and also
+        ///     speed up duplicate load, and properly unload on quit.
         /// </summary>
         private static readonly Dictionary<string, Sound> loadedSounds = [];
 

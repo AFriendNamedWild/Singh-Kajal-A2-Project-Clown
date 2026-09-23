@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
 /*////////////////////////////////////////////////////////////////////////
- * Copyright (c)
- * Mohawk College, 135 Fennell Ave W, Hamilton, Ontario, Canada L9C 0E5
- * Game Design (374): GAME 10003 Game Development Foundations
- *////////////////////////////////////////////////////////////////////////
+/* Copyright (c)
+/* Mohawk College, 135 Fennell Ave W, Hamilton, Ontario, Canada L9C 0E5
+/* Game Design (374): GAME 10033 Game Development Foundations
+/* Source: https://github.com/MohawkRaphaelT/game10003-2d-game-template
+/*////////////////////////////////////////////////////////////////////////
 
 using Raylib_cs;
 
@@ -29,7 +30,8 @@ namespace MohawkGame2D
         private static bool hasInitialized = false;
 
         /// <summary>
-        ///     Internally track fonts to speed up duplicate loads and properly unload when game is quit.
+        ///     Keep list of fonts to auto-update in background, and also
+        ///     speed up duplicate load, and properly unload on quit.
         /// </summary>
         private static readonly Dictionary<string, Font> loadedFonts = [];
 
@@ -57,7 +59,7 @@ namespace MohawkGame2D
         public static int Kerning { get; set; } = 0;
 
         /// <summary>
-        ///     Get an array of all loaded music.
+        ///     Get an array of all loaded fonts.
         /// </summary>
         public static Font[] LoadedFonts => [.. loadedFonts.Values];
 

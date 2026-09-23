@@ -18,6 +18,10 @@ namespace MohawkGame2D
         /// </summary>
         public void Setup()
         {
+            Window.SetTitle("Meet Mr Chuckles!");
+            Window.SetSize(600,600);
+
+            Draw.SetLineSize(2);
 
         }
 

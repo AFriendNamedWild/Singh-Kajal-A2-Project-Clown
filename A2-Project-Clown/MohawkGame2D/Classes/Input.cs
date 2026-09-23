@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Numerics;
 /*////////////////////////////////////////////////////////////////////////
- * Copyright (c)
- * Mohawk College, 135 Fennell Ave W, Hamilton, Ontario, Canada L9C 0E5
- * Game Design (374): GAME 10003 Game Development Foundations
- *////////////////////////////////////////////////////////////////////////
+/* Copyright (c)
+/* Mohawk College, 135 Fennell Ave W, Hamilton, Ontario, Canada L9C 0E5
+/* Game Design (374): GAME 10033 Game Development Foundations
+/* Source: https://github.com/MohawkRaphaelT/game10003-2d-game-template
+/*////////////////////////////////////////////////////////////////////////
 
 using Raylib_cs;
 
@@ -21,12 +22,12 @@ namespace MohawkGame2D
         #region Public Methods
 
         /// <summary>
-        ///     Disables mouse cursor while in window.
+        ///     Disables mouse cursor while inside window.
         /// </summary>
         public static void DisableMouseCursor() => Raylib.DisableCursor();
 
         /// <summary>
-        ///     Enables mouse cursor while in window.
+        ///     Enables mouse cursor while inside window.
         /// </summary>
         public static void EnableMouseCursor() => Raylib.EnableCursor();
 
@@ -57,7 +58,9 @@ namespace MohawkGame2D
                 }
             }
 
-            finalValue /= controllerCount;
+            if (controllerCount > 1)
+                finalValue /= controllerCount;
+
             return finalValue;
         }
 
@@ -70,7 +73,7 @@ namespace MohawkGame2D
         ///     Returns a float axis that combines both inputs,
         ///     ranges from -1f to +1f.
         /// </returns>
-        public static float GetAxis(KeyboardInput negative, KeyboardInput positive)
+        public static float GetAxis(KeyboardKey negative, KeyboardKey positive)
         {
             float value = 0;
 
@@ -95,7 +98,7 @@ namespace MohawkGame2D
         ///     both Y inputs, each ranging from -1f to +1f. The
         ///     input is clamped to a max length of 1f.
         /// </returns>
-        public static Vector2 GetAxis2(KeyboardInput negativeX, KeyboardInput positiveX, KeyboardInput negativeY, KeyboardInput positiveY)
+        public static Vector2 GetAxis2(KeyboardKey negativeX, KeyboardKey positiveX, KeyboardKey negativeY, KeyboardKey positiveY)
         {
             // Combine axes
             float x = GetAxis(negativeX, positiveX);
@@ -157,7 +160,7 @@ namespace MohawkGame2D
         /// <returns>
         ///     Returns the pixel delta position X between frames.
         /// </returns>
-        public static float GetMouseDeltaX() => ClampedMousePosition().X;
+        public static int GetMouseDeltaX() => (int)Raylib.GetMouseDelta().X;
 
         /// <summary>
         ///     Gets the movement of mouse Y between last frame and this frame.
@@ -165,7 +168,7 @@ namespace MohawkGame2D
         /// <returns>
         ///     Returns the pixel delta position Y between frames.
         /// </returns>
-        public static float GetMouseDeltaY() => ClampedMousePosition().Y;
+        public static int GetMouseDeltaY() => (int)Raylib.GetMouseDelta().Y;
 
         /// <summary>
         ///     Gets the movement of mouse between last frame and this frame.
@@ -181,7 +184,7 @@ namespace MohawkGame2D
         /// <returns>
         ///     Returns the Vector2 mouse position on screen in pixel coordinates.
         /// </returns>
-        public static Vector2 GetMousePosition() => ClampedMousePosition();
+        public static Vector2 GetMousePosition() => ClampedMousePositionV();
 
         /// <summary>
         ///     Gets the mouse X position on screen this frame.
@@ -189,7 +192,7 @@ namespace MohawkGame2D
         /// <returns>
         ///     Returns the X mouse position on screen in pixel coordinates.
         /// </returns>
-        public static float GetMouseX() => Raylib.GetMouseX();
+        public static int GetMouseX() => (int)ClampedMousePositionX();
 
         /// <summary>
         ///     Gets the mouse Y position on screen this frame.
@@ -197,7 +200,7 @@ namespace MohawkGame2D
         /// <returns>
         ///     Returns the mouse Y position on screen in pixel coordinates.
         /// </returns>
-        public static float GetMouseY() => Raylib.GetMouseY();
+        public static int GetMouseY() => (int)ClampedMousePositionY();
 
         /// <summary>
         ///     Gets the mouse wheel movement this frame.
@@ -213,7 +216,7 @@ namespace MohawkGame2D
         /// <returns>
         ///     Returns the mouse wheel X movement.
         /// </returns>
-        public static float GetMouseWheelX() => Raylib.GetMouseWheelMoveV().X;
+        public static int GetMouseWheelX() => (int)Raylib.GetMouseWheelMoveV().X;
 
         /// <summary>
         ///     Gets the mouse wheel's Y movement this frame.
@@ -221,7 +224,7 @@ namespace MohawkGame2D
         /// <returns>
         ///     Returns the mouse wheel Y movement.
         /// </returns>
-        public static float GetMouseWheelY() => Raylib.GetMouseWheelMoveV().Y;
+        public static int GetMouseWheelY() => (int)Raylib.GetMouseWheelMoveV().Y;
 
         /// <summary>
         ///     Hides mouse cursor in window.
@@ -229,7 +232,7 @@ namespace MohawkGame2D
         public static void HideMouseCursor() => Raylib.HideCursor();
 
         /// <summary>
-        ///     Checks if controller number <paramref name="controllerButton"/>
+        ///     Checks if <paramref name="controllerButton"/>
         ///     is down on any controller this frame.
         /// </summary>
         /// <param name="controllerButton">The controller button to check.</param>
@@ -241,7 +244,7 @@ namespace MohawkGame2D
             => IsAnyControllerButtonXXX(controllerButton, Raylib.IsGamepadButtonDown);
 
         /// <summary>
-        ///     Checks if controller number <paramref name="controllerButton"/>
+        ///     Checks if <paramref name="controllerButton"/>
         ///     was pressed on any controller this frame.
         /// </summary>
         /// <param name="controllerButton">The controller button to check.</param>
@@ -253,7 +256,7 @@ namespace MohawkGame2D
             => IsAnyControllerButtonXXX(controllerButton, Raylib.IsGamepadButtonPressed);
 
         /// <summary>
-        ///     Checks if controller number <paramref name="controllerButton"/>
+        ///     Checks if <paramref name="controllerButton"/>
         ///     was released on any controller this frame.
         /// </summary>
         /// <param name="controllerButton">The controller button to check.</param>
@@ -265,7 +268,7 @@ namespace MohawkGame2D
             => IsAnyControllerButtonXXX(controllerButton, Raylib.IsGamepadButtonReleased);
 
         /// <summary>
-        ///     Checks if controller number <paramref name="controllerButton"/>
+        ///     Checks if <paramref name="controllerButton"/>
         ///     is up on any controller this frame.
         /// </summary>
         /// <param name="controllerButton">The controller button to check.</param>
@@ -349,7 +352,7 @@ namespace MohawkGame2D
         /// <returns>
         ///     Returns true if key is down this frame, false otherwise.
         /// </returns>
-        public static bool IsKeyboardKeyDown(KeyboardInput key) => Raylib.IsKeyDown((Raylib_cs.KeyboardKey)key);
+        public static bool IsKeyboardKeyDown(KeyboardKey key) => Raylib.IsKeyDown((Raylib_cs.KeyboardKey)key);
 
         /// <summary>
         ///     Checks if keyboard key was pressed this frame.
@@ -358,7 +361,7 @@ namespace MohawkGame2D
         /// <returns>
         ///     Returns true if key was pressed this frame, false otherwise.
         /// </returns>
-        public static bool IsKeyboardKeyPressed(KeyboardInput key) => Raylib.IsKeyPressed((Raylib_cs.KeyboardKey)key);
+        public static bool IsKeyboardKeyPressed(KeyboardKey key) => Raylib.IsKeyPressed((Raylib_cs.KeyboardKey)key);
 
         /// <summary>
         ///     Checks if keyboard key was released this frame.
@@ -367,7 +370,7 @@ namespace MohawkGame2D
         /// <returns>
         ///     Returns true if key was released this frame, false otherwise.
         /// </returns>
-        public static bool IsKeyboardKeyReleased(KeyboardInput key) => Raylib.IsKeyReleased((Raylib_cs.KeyboardKey)key);
+        public static bool IsKeyboardKeyReleased(KeyboardKey key) => Raylib.IsKeyReleased((Raylib_cs.KeyboardKey)key);
 
         /// <summary>
         ///     Checks if keyboard key is up this frame.
@@ -376,7 +379,7 @@ namespace MohawkGame2D
         /// <returns>
         ///     Returns true if key is up this frame, false otherwise.
         /// </returns>
-        public static bool IsKeyboardKeyUp(KeyboardInput key) => Raylib.IsKeyUp((Raylib_cs.KeyboardKey)key);
+        public static bool IsKeyboardKeyUp(KeyboardKey key) => Raylib.IsKeyUp((Raylib_cs.KeyboardKey)key);
 
         /// <summary>
         ///     Checks if mouse button is down this frame.
@@ -385,7 +388,7 @@ namespace MohawkGame2D
         /// <returns>
         ///     Returns true if mouse button is down this frame, false otherwise.
         /// </returns>
-        public static bool IsMouseButtonDown(MouseInput button) => Raylib.IsMouseButtonDown((Raylib_cs.MouseButton)button);
+        public static bool IsMouseButtonDown(MouseButton button) => Raylib.IsMouseButtonDown((Raylib_cs.MouseButton)button);
 
         /// <summary>
         ///     Checks if mouse button was pressed this frame.
@@ -394,7 +397,7 @@ namespace MohawkGame2D
         /// <returns>
         ///     Returns true if mouse button was pressed this frame, false otherwise.
         /// </returns>
-        public static bool IsMouseButtonPressed(MouseInput button) => Raylib.IsMouseButtonPressed((Raylib_cs.MouseButton)button);
+        public static bool IsMouseButtonPressed(MouseButton button) => Raylib.IsMouseButtonPressed((Raylib_cs.MouseButton)button);
 
         /// <summary>
         ///     Checks if mouse button was released this frame.
@@ -403,7 +406,7 @@ namespace MohawkGame2D
         /// <returns>
         ///     Returns true if mouse button was released this frame, false otherwise.
         /// </returns>
-        public static bool IsMouseButtonReleased(MouseInput button) => Raylib.IsMouseButtonReleased((Raylib_cs.MouseButton)button);
+        public static bool IsMouseButtonReleased(MouseButton button) => Raylib.IsMouseButtonReleased((Raylib_cs.MouseButton)button);
 
         /// <summary>
         ///     Checks if mouse button is up this frame.
@@ -412,7 +415,7 @@ namespace MohawkGame2D
         /// <returns>
         ///     Returns true if mouse button is up this frame, false otherwise.
         /// </returns>
-        public static bool IsMouseButtonUp(MouseInput button) => Raylib.IsMouseButtonUp((Raylib_cs.MouseButton)button);
+        public static bool IsMouseButtonUp(MouseButton button) => Raylib.IsMouseButtonUp((Raylib_cs.MouseButton)button);
 
         /// <summary>
         ///     Check if the mouse is hidden.
@@ -454,11 +457,20 @@ namespace MohawkGame2D
             return false;
         }
 
-        private static Vector2 ClampedMousePosition()
+        private static float ClampedMousePosition(float position, float max)
         {
-            Vector2 min = Vector2.Zero;
-            Vector2 max = Window.Size;
-            Vector2 mousePosition = Vector2.Clamp(Raylib.GetMousePosition(), min, max);
+            position = Math.Clamp(position, 0, max);
+            return position;
+        }
+        private static float ClampedMousePositionX() => ClampedMousePosition(Raylib.GetMouseX(), Window.Width);
+        private static float ClampedMousePositionY() => ClampedMousePosition(Raylib.GetMouseY(), Window.Height);
+        private static Vector2 ClampedMousePositionV()
+        {
+            Vector2 mousePosition = new()
+            {
+                X = ClampedMousePositionX(),
+                Y = ClampedMousePositionY(),
+            };
             return mousePosition;
         }
 

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Numerics;
 /*////////////////////////////////////////////////////////////////////////
- * Copyright (c)
- * Mohawk College, 135 Fennell Ave W, Hamilton, Ontario, Canada L9C 0E5
- * Game Design (374): GAME 10003 Game Development Foundations
- *////////////////////////////////////////////////////////////////////////
+/* Copyright (c)
+/* Mohawk College, 135 Fennell Ave W, Hamilton, Ontario, Canada L9C 0E5
+/* Game Design (374): GAME 10033 Game Development Foundations
+/* Source: https://github.com/MohawkRaphaelT/game10003-2d-game-template
+/*////////////////////////////////////////////////////////////////////////
 
 using Raylib_cs;
 
@@ -106,6 +107,44 @@ namespace MohawkGame2D
         }
 
         /// <summary>
+        ///     Clears the window canvas to the specified <paramref name="hexColor"/>.
+        /// </summary>
+        /// <param name="hexColor">The color represented in hex, eg. "#00FF00" (green) or "0080FF80" (blue-cyan, half transparent).
+        public static void ClearBackground(string hexColor) => ClearBackground(new Color(hexColor));
+
+        /// <summary>
+        ///     Clears the window canvas to the specified <paramref name="intensity"/> (greyscale value).
+        /// </summary>
+        /// <param name="intensity">The greyscale color intensity. 0 is black, 255 is white, 128 is mid-tone grey.</param>
+        public static void ClearBackground(int intensity) => ClearBackground(new Color(intensity));
+
+        /// <summary>
+        ///     Clears the window canvas to the color constructred from the specified <paramref name="red"/>, 
+        ///     <paramref name="green"/>, and <paramref name="blue"/> color components.
+        /// </summary>
+        /// <param name="red">The red colour component. 0 means no red, 255 means max red.</param>
+        /// <param name="green">The green colour component. 0 means no green, 255 means max green.</param>
+        /// <param name="blue">The blue colour component. 0 means no blue, 255 means max blue.</param>
+        public static void ClearBackground(int red, int green, int blue) => ClearBackground(new Color(red, green, blue));
+
+
+
+        /// <summary>
+        ///     Centre window within the current monitor.
+        /// </summary>
+        public static void CentreWindow()
+        {
+            // Position window in centre of screen
+            int monitorID = Raylib.GetCurrentMonitor();
+            int monitorWidth = Raylib.GetMonitorWidth(monitorID);
+            int monitorHeight = Raylib.GetMonitorHeight(monitorID);
+            Vector2 windowPosition = new Vector2(
+                Width > monitorWidth ? 0 : (monitorWidth - Width) / 2,
+                Height > monitorHeight ? 0 : (monitorHeight - Height) / 2);
+            Raylib.SetWindowPosition((int)windowPosition.X, (int)windowPosition.Y);
+        }
+
+        /// <summary>
         ///     Set the window size in pixels.
         /// </summary>
         /// <param name="width">Width of window in pixels.</param>
@@ -137,7 +176,7 @@ namespace MohawkGame2D
         {
             int monitorIndex = Raylib.GetCurrentMonitor();
             int hz = Raylib.GetMonitorRefreshRate(monitorIndex);
-            Raylib.SetTargetFPS(hz);
+            SetTargetFpsOrWarn(hz);
         }
 
         #endregion
@@ -159,14 +198,18 @@ namespace MohawkGame2D
 
         private static void SetTargetFpsOrWarn(int targetFPS)
         {
+            // Warn when trying to set impossible FPS
             if (targetFPS <= 0)
             {
                 string msg = "FPS must be greater than 0!";
                 Console.WriteLine(msg);
             }
-
-            Window.targetFPS = targetFPS;
-            Raylib.SetTargetFPS(targetFPS);
+            // Only update FPS if not current FPS
+            else if (targetFPS != TargetFPS)
+            {
+                Window.targetFPS = targetFPS;
+                Raylib.SetTargetFPS(targetFPS);
+            }
         }
 
         private static void SetWidth(int width)

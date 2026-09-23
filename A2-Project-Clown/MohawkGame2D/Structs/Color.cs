@@ -1,8 +1,9 @@
 ﻿/*////////////////////////////////////////////////////////////////////////
- * Copyright (c)
- * Mohawk College, 135 Fennell Ave W, Hamilton, Ontario, Canada L9C 0E5
- * Game Design (374): GAME 10003 Game Development Foundations
- *////////////////////////////////////////////////////////////////////////
+/* Copyright (c)
+/* Mohawk College, 135 Fennell Ave W, Hamilton, Ontario, Canada L9C 0E5
+/* Game Design (374): GAME 10033 Game Development Foundations
+/* Source: https://github.com/MohawkRaphaelT/game10003-2d-game-template
+/*////////////////////////////////////////////////////////////////////////
 
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -12,7 +13,7 @@ using System.Runtime.InteropServices;
 namespace MohawkGame2D
 {
     /// <summary>
-    ///     Represents an RGBA color (32-bit) using 8-bit byte color components.
+    ///     Represents an RGBA color (32-bit) using 8-bit byte color components (numbers from 0 to 255).
     /// </summary>
     [StructLayout(LayoutKind.Explicit)]
     public struct Color
@@ -26,7 +27,7 @@ namespace MohawkGame2D
         [FieldOffset(3)] private byte a;
 
         /// <summary>
-        ///     Red colour channel.
+        ///     Red colour channel (0-255).
         /// </summary>
         public int R
         {
@@ -34,7 +35,7 @@ namespace MohawkGame2D
             set => r = ConstrainAsByte(value);
         }
         /// <summary>
-        ///     Green colour channel.
+        ///     Green colour channel (0-255).
         /// </summary>
         public int G
         {
@@ -42,7 +43,7 @@ namespace MohawkGame2D
             set => g = ConstrainAsByte(value);
         }
         /// <summary>
-        ///     Blue colour channel.
+        ///     Blue colour channel (0-255).
         /// </summary>
         public int B
         {
@@ -50,7 +51,7 @@ namespace MohawkGame2D
             set => b = ConstrainAsByte(value);
         }
         /// <summary>
-        ///     Alpha colour channel.
+        ///     Alpha colour channel (0-255).
         /// </summary>
         public int A
         {
@@ -104,7 +105,7 @@ namespace MohawkGame2D
         /// <summary>
         ///     Create a new grayscale color using the <paramref name="intensity"/> value.
         /// </summary>
-        /// <param name="intensity">The intesity (brightness).</param>
+        /// <param name="intensity">The intesity (brightness) value (0-255).</param>
         public Color(int intensity)
         {
             r = g = b = ConstrainAsByte(intensity);
@@ -115,8 +116,8 @@ namespace MohawkGame2D
         ///     Create a new grayscale color using the <paramref name="intensity"/> value
         ///     with <paramref name="opacity"/>.
         /// </summary>
-        /// <param name="intensity">The intesity (brightness).</param>
-        /// <param name="opacity">0 for fully translucid, 255 for fully opaque.</param>
+        /// <param name="intensity">The intesity (brightness) value (0-255).</param>
+        /// <param name="opacity">The opacity value, 0 for fully translucid, 255 for fully opaque.</param>
         public Color(int intensity, int opacity)
         {
             r = g = b = ConstrainAsByte(intensity);
@@ -126,9 +127,9 @@ namespace MohawkGame2D
         /// <summary>
         ///     Creates a new RGB color.
         /// </summary>
-        /// <param name="r">Red color channel.</param>
-        /// <param name="g">Green color channel.</param>
-        /// <param name="b">Blue color channel.</param>
+        /// <param name="r">Red color channel value (0-255).</param>
+        /// <param name="g">Green color channel value (0-255).</param>
+        /// <param name="b">Blue color channel value (0-255).</param>
         public Color(int r, int g, int b)
         {
             R = r;
@@ -140,10 +141,10 @@ namespace MohawkGame2D
         /// <summary>
         ///     Creates a new RGBA color.
         /// </summary>
-        /// <param name="r">Red color channel.</param>
-        /// <param name="g">Green color channel.</param>
-        /// <param name="b">Blue color channel.</param>
-        /// <param name="a">Alpha channel.</param>
+        /// <param name="r">Red color channel value (0-255).</param>
+        /// <param name="g">Green color channel value (0-255).</param>
+        /// <param name="b">Blue color channel value (0-255).</param>
+        /// <param name="a">Alpha channel value (0-255).</param>
         public Color(int r, int g, int b, int a)
         {
             R = r;
@@ -168,8 +169,8 @@ namespace MohawkGame2D
                 raw = 0;
 
             // Sanitive value
-            value.Replace("#", "");
-            value.Trim();
+            value = value.Replace("#", "");
+            value = value.Trim();
             value = value.ToLower();
 
             // Validate string characters
@@ -178,7 +179,7 @@ namespace MohawkGame2D
                 char c = value[i];
                 bool isValidNumber = c >= '0' && c <= '9';
                 bool isValidLetter = c >= 'a' && c <= 'f';
-                bool isInvalid = isValidNumber ^ isValidLetter;
+                bool isInvalid = !isValidNumber & !isValidLetter;
                 if (isInvalid)
                 {
                     string msg = $"Value contains non-hexadecimal character {c} ({value}).";

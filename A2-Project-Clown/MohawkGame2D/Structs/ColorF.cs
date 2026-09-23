@@ -1,13 +1,14 @@
 ﻿/*////////////////////////////////////////////////////////////////////////
- * Copyright (c)
- * Mohawk College, 135 Fennell Ave W, Hamilton, Ontario, Canada L9C 0E5
- * Game Design (374): GAME 10003 Game Development Foundations
- *////////////////////////////////////////////////////////////////////////
+/* Copyright (c)
+/* Mohawk College, 135 Fennell Ave W, Hamilton, Ontario, Canada L9C 0E5
+/* Game Design (374): GAME 10033 Game Development Foundations
+/* Source: https://github.com/MohawkRaphaelT/game10003-2d-game-template
+/*////////////////////////////////////////////////////////////////////////
 
 namespace MohawkGame2D
 {
     /// <summary>
-    ///     Represents an RGBA color (128-bit) using 32-bit float color components.
+    ///     Represents an RGBA color (128-bit) using 32-bit float color components (numbers from 0.0f to 1.0f).
     /// </summary>
     public struct ColorF
     {
@@ -19,7 +20,7 @@ namespace MohawkGame2D
         private float a;
 
         /// <summary>
-        ///     Red colour channel.
+        ///     Red colour channel (0.0f-1.0f).
         /// </summary>
         public float R
         {
@@ -27,7 +28,7 @@ namespace MohawkGame2D
             set => r = ConstrainFloat0To1(value);
         }
         /// <summary>
-        ///     Green colour channel.
+        ///     Green colour channel (0.0f-1.0f).
         /// </summary>
         public float G
         {
@@ -35,7 +36,7 @@ namespace MohawkGame2D
             set => g = ConstrainFloat0To1(value);
         }
         /// <summary>
-        ///     Blue colour channel.
+        ///     Blue colour channel (0.0f-1.0f).
         /// </summary>
         public float B
         {
@@ -43,7 +44,7 @@ namespace MohawkGame2D
             set => b = ConstrainFloat0To1(value);
         }
         /// <summary>
-        ///     Alpha colour channel.
+        ///     Alpha colour channel (0.0f-1.0f).
         /// </summary>
         public float A
         {
@@ -115,7 +116,7 @@ namespace MohawkGame2D
         /// <summary>
         ///     Create a new grayscale color using the <paramref name="intensity"/> value.
         /// </summary>
-        /// <param name="intensity">The intesity (brightness).</param>
+        /// <param name="intensity">The intensity (brightness) value (0.0f-1.0f).</param>
         public ColorF(float intensity)
         {
             r = g = b = ConstrainFloat0To1(intensity);
@@ -126,8 +127,8 @@ namespace MohawkGame2D
         ///     Create a new grayscale color using the <paramref name="intensity"/> value
         ///     with <paramref name="opacity"/>.
         /// </summary>
-        /// <param name="intensity">The intesity (brightness).</param>
-        /// <param name="opacity">0f for fully translucid, 1f for fully opaque.</param>
+        /// <param name="intensity">The intensity (brightness) value (0.0f-1.0f).</param>
+        /// <param name="opacity">The opacity value, 0f for fully translucid, 1f for fully opaque.</param>
         public ColorF(float intensity, float opacity)
         {
             r = g = b = ConstrainFloat0To1(intensity);
@@ -137,9 +138,9 @@ namespace MohawkGame2D
         /// <summary>
         ///     Creates a new RGB color.
         /// </summary>
-        /// <param name="r">Red color channel.</param>
-        /// <param name="g">Green color channel.</param>
-        /// <param name="b">Blue color channel.</param>
+        /// <param name="r">Red color channel value (0.0f-1.0f).</param>
+        /// <param name="g">Green color channel value (0.0f-1.0f).</param>
+        /// <param name="b">Blue color channel value (0.0f-1.0f).</param>
         public ColorF(float r, float g, float b)
         {
             R = r;
@@ -151,10 +152,10 @@ namespace MohawkGame2D
         /// <summary>
         ///     Creates a new RGBA color.
         /// </summary>
-        /// <param name="r">Red color channel.</param>
-        /// <param name="g">Green color channel.</param>
-        /// <param name="b">Blue color channel.</param>
-        /// <param name="a">Alpha channel.</param>
+        /// <param name="r">Red color channel value (0.0f-1.0f).</param>
+        /// <param name="g">Green color channel value (0.0f-1.0f).</param>
+        /// <param name="b">Blue color channel value (0.0f-1.0f).</param>
+        /// <param name="a">Alpha channel value (0.0f-1.0f).</param>
         public ColorF(float r, float g, float b, float a)
         {
             R = r;

@@ -2,10 +2,11 @@
 using System.IO;
 using System.Numerics;
 /*////////////////////////////////////////////////////////////////////////
- * Copyright (c)
- * Mohawk College, 135 Fennell Ave W, Hamilton, Ontario, Canada L9C 0E5
- * Game Design (374): GAME 10003 Game Development Foundations
- *////////////////////////////////////////////////////////////////////////
+/* Copyright (c)
+/* Mohawk College, 135 Fennell Ave W, Hamilton, Ontario, Canada L9C 0E5
+/* Game Design (374): GAME 10033 Game Development Foundations
+/* Source: https://github.com/MohawkRaphaelT/game10003-2d-game-template
+/*////////////////////////////////////////////////////////////////////////
 
 using Raylib_cs;
 
@@ -23,12 +24,13 @@ namespace MohawkGame2D
         #region Fields and Properties
 
         /// <summary>
-        ///     Internally track textures to speed up duplicate loads and properly unload when game is quit
+        ///     Keep list of textures to auto-update in background, and also
+        ///     speed up duplicate load, and properly unload on quit.
         /// </summary>
         private static readonly Dictionary<string, Texture2D> loadedTextures = [];
 
         /// <summary>
-        ///     Get an array of all loaded music.
+        ///     Get an array of all loaded textures.
         /// </summary>
         public static Texture2D[] LoadedTextures => [.. loadedTextures.Values];
 
@@ -43,7 +45,7 @@ namespace MohawkGame2D
         public static float Scale { get; set; } = 1;
 
         /// <summary>
-        ///     Color tint of graphics. DEfault is white.
+        ///     Color tint of graphics. Default is white.
         /// </summary>
         public static Color Tint { get; set; } = Color.White;
 
@@ -70,6 +72,46 @@ namespace MohawkGame2D
         public static void Draw(Texture2D texture, Vector2 position)
         {
             Raylib.DrawTextureEx(texture, position, Rotation, Scale, Tint);
+        }
+
+        /// <summary>
+        ///     Draw a <paramref name="texture"/> graphic to the screen at
+        ///     position (<paramref name="positionX"/>, <paramref name="positionY"/>)
+        ///     rotating and scaling about (<paramref name="originX"/>, <paramref name="originY"/>).
+        /// </summary>
+        /// <param name="texture">The texture to draw.</param>
+        /// <param name="positionX">The X position to draw at.</param>
+        /// <param name="positionY">The Y position to draw at.</param>
+        /// <param name="originX">The X-axis origin within the texture.</param>
+        /// <param name="originY">The Y-axis origin within the texture.</param>
+        public static void Draw(Texture2D texture, float positionX, float positionY, float originX, float originY)
+            => Draw(texture, new Vector2(positionX, positionY), new Vector2(originX, originY));
+
+        /// <summary>
+        ///     Draw a <paramref name="texture"/> graphic to the screen at <paramref name="position"/>
+        ///     rotating and scaling about <paramref name="origin"/>.
+        /// </summary>
+        /// <param name="texture">The texture to draw.</param>
+        /// <param name="position">The position to draw at.</param>
+        /// <param name="origin">The origin within the texture.</param>
+        public static void Draw(Texture2D texture, Vector2 position, Vector2 origin)
+        {
+            // Source in texture
+            var source = new Rectangle()
+            {
+                Position = Vector2.Zero,
+                Size = texture.Size,
+            };
+            // Destination on screen
+            var destination = new Rectangle()
+            {
+                Position = position,
+                Size = texture.Size * Scale,
+            };
+            // Correct origin
+            origin *= Scale;
+            // Draw
+            Raylib.DrawTexturePro(texture, source, destination, origin, Rotation, Tint);
         }
 
         /// <summary>
@@ -110,6 +152,9 @@ namespace MohawkGame2D
                 Position = position,
                 Size = subsetSize * Scale,
             };
+            // Correct origin
+            rotationOrigin *= Scale;
+            // Draw
             Raylib.DrawTexturePro(texture, source, destination, rotationOrigin, Rotation, Tint);
         }
 

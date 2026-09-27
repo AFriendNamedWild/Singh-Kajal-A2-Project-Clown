@@ -55,16 +55,16 @@ namespace MohawkGame2D
             Draw.Circle(100, 178, 90);
             Draw.Circle(520, 70, 50);
 
-            //Face Paint??? 
+            //Blush
             Draw.SetFillColor(Blush);
-            Draw.Circle(300,350,55);
-            Draw.Circle(400,350,55);
+            Draw.Circle(190,370,55);
+            Draw.Circle(410,370,55);
 
 
             //Eyes
             Draw.SetFillColor(0,0,0);
-            Draw.Circle(230,200,35);
-            Draw.Circle(365,260,35);
+            Draw.Circle(230, 250, 35);
+            Draw.Circle(365, 250, 35);
 
 
             //Nose
@@ -89,20 +89,24 @@ namespace MohawkGame2D
             
             }
 
-            if (Input.IsMouseButtonDown(MouseButton.Left) == true)
+            //Mouse Input for Blush
+
+            if (Input.IsMouseButtonPressed(MouseButton.Left) == true)
             {
-                
+                Blush = Random.Color();
             }
-           
-            
-            
+
+
+
             //if (Input.IsMouseButtonHeld(MouseButton.Left) == true)
 
             //{
-           
+
             //Draw Code, It'll just run normally
 
             //}
+
+            
 
 
         }

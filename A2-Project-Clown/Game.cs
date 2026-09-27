@@ -16,6 +16,8 @@ namespace MohawkGame2D
         Color NoseColor = new Color(250,0,0);
         Color HairColor = new Color(0, 250, 250);
 
+        Color Blush = new Color(255, 0, 125);
+
         /// <summary>
         ///     Setup runs once before the game loop begins.
         /// </summary>
@@ -53,14 +55,16 @@ namespace MohawkGame2D
             Draw.Circle(100, 178, 90);
             Draw.Circle(520, 70, 50);
 
+            //Face Paint??? 
+            Draw.SetFillColor(Blush);
+            Draw.Circle(300,350,55);
+            Draw.Circle(400,350,55);
+
+
             //Eyes
             Draw.SetFillColor(0,0,0);
-            Draw.Circle(230,250,35);
-            Draw.Circle(365,250,35);
-
-            //Keyboard Input???? For Expression change
-
-
+            Draw.Circle(230,200,35);
+            Draw.Circle(365,260,35);
 
 
             //Nose
@@ -82,8 +86,27 @@ namespace MohawkGame2D
             if (Input.IsMouseButtonPressed(MouseButton.Left) == true)
             {
                 HairColor = Random.Color();
+            
             }
+
+            if (Input.IsMouseButtonDown(MouseButton.Left) == true)
+            {
+                
+            }
+           
+            
+            
+            //if (Input.IsMouseButtonHeld(MouseButton.Left) == true)
+
+            //{
+           
+            //Draw Code, It'll just run normally
+
+            //}
+
+
         }
+
 
 
 

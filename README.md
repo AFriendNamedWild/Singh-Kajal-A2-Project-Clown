@@ -1,2 +1,2 @@
 # Singh-Kajal-A2-Project-Clown
-Assignment 2 Clown Repo
+CLick on Mr.Chuckles to change his colors!
